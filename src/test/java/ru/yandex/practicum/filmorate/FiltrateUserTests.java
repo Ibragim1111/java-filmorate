@@ -5,18 +5,22 @@ import ru.yandex.practicum.filmorate.controller.UserController;
 import ru.yandex.practicum.filmorate.model.User;
 import jakarta.validation.*;
 
+import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
+
 import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class FiltrateUserTests {
-    private UserController controller;
+    private UserService service;
     private Validator validator;
 
     @BeforeEach
     void setUp() {
-        controller = new UserController();
+        service = new UserService(new InMemoryUserStorage());
         validator = Validation.buildDefaultValidatorFactory().getValidator();
+
     }
 
     @Test
@@ -26,7 +30,7 @@ public class FiltrateUserTests {
         user.setLogin("validLogin");
         user.setBirthday(LocalDate.of(2000, 1, 1));
 
-        User created = controller.create(user);
+        User created = service.create(user);
         assertNotNull(created.getId());
     }
 
