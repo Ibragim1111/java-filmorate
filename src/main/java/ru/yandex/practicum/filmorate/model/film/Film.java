@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.model.film;
 
 
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +10,7 @@ import lombok.Data;
 import ru.yandex.practicum.filmorate.release.film.MinReleaseDate;
 import java.time.LocalDate;
 
+import java.util.Set;
 
 
 @Data
@@ -29,4 +30,8 @@ public class Film {
 
     @Positive(message = "Продолжительность фильма должна быть положительной")
     private int duration;
+
+    private Set<Genre> genres;
+    private MpaRating mpa;
+
 }

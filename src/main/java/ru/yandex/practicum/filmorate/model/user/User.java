@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.model.user;
 
 
 import jakarta.validation.constraints.Email;
@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Data
@@ -27,6 +29,7 @@ public class User {
     @PastOrPresent(message = "Дата рождения не может быть в будущем")
     private LocalDate birthday;
 
+    private Map<Integer, FriendshipStatus> friends = new HashMap<>();
     public String getName() {
         return name == null || name.isBlank() ? login : name;
     }
