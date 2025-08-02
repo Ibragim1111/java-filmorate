@@ -30,6 +30,7 @@ public class User {
     private LocalDate birthday;
 
     private Map<Integer, FriendshipStatus> friends = new HashMap<>();
+
     public String getName() {
         return name == null || name.isBlank() ? login : name;
     }

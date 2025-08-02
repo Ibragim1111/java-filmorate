@@ -8,9 +8,11 @@ import ru.yandex.practicum.filmorate.model.film.Film;
 
 import jakarta.validation.*;
 import ru.yandex.practicum.filmorate.service.FilmService;
+
 import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
 import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
+
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -25,7 +27,9 @@ class FiltrateFilmTests {
 
 	@BeforeEach
 	void setUp() {
+
 		filmService = new FilmService(new InMemoryFilmStorage(), new UserService(new InMemoryUserStorage()));
+
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		validator = factory.getValidator();
 	}
