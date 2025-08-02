@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleOtherExceptions(Throwable e) {
+    public ErrorResponse handleOtherExceptions(RuntimeException e) {
         return new ErrorResponse("Внутренняя ошибка сервера", e.getMessage());
     }
 }
