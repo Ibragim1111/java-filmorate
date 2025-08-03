@@ -2,13 +2,14 @@ package ru.yandex.practicum.filmorate.model.film;
 
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.PastOrPresent;
+
 import lombok.Data;
 import ru.yandex.practicum.filmorate.release.film.MinReleaseDate;
 import java.time.LocalDate;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -49,3 +50,4 @@ public class Film {
 
     final Set<Long> movieRating = new HashSet<>();
 }
+

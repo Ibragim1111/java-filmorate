@@ -1,9 +1,11 @@
 package ru.yandex.practicum.filmorate.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 import ru.yandex.practicum.filmorate.dto.UserDto;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
@@ -13,19 +15,17 @@ import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.storage.mappers.UserMapper;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
+
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor()
 public class UserService {
+    @Qualifier("userDbStorage")
     private final UserStorage userStorage;
-
-    @Autowired
-    public UserService(@Qualifier("userDbStorage") UserStorage userStorage) {
-        this.userStorage = userStorage;
-    }
 
     public UserDto create(NewUserRequest request) {
 
@@ -49,6 +49,7 @@ public class UserService {
     public UserDto findById(Long userId) {
         return userStorage.findById(userId).map(UserMapper::mapToUserDto)
                 .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден"));
+
     }
 
     public Collection<UserDto> getUsers() {
@@ -62,6 +63,8 @@ public class UserService {
         UserDto user = findById(userId);
         UserDto friend = findById(friendId);
 
+
+
         userStorage.addFriend(userId, friendId);
         log.info("{} отправил заявку {} на добавление в друзья!", user.getName(), friend.getName());
 
@@ -71,6 +74,7 @@ public class UserService {
             log.info("{} и {} подтвердили дружбу!", user.getName(), friend.getName());
         }
     }
+
 
     public void deleteFriend(Long userId, Long friendId) {
         if (userId.equals(friendId)) {
@@ -95,6 +99,7 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден"));
 
         return userStorage.getFriends(userId).stream().map(UserMapper::mapToUserDto).collect(Collectors.toList());
+
     }
 
 

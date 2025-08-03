@@ -1,24 +1,22 @@
 package ru.yandex.practicum.filmorate.service;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
+
 import ru.yandex.practicum.filmorate.dto.UserDto;
 import ru.yandex.practicum.filmorate.model.film.Film;
-import ru.yandex.practicum.filmorate.storage.film.InMemoryFilmStorage;
+
 
 import java.util.Collection;
 
-
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.NotFoundException;
-import ru.yandex.practicum.filmorate.model.film.Film;
 import ru.yandex.practicum.filmorate.model.film.Genre;
 import ru.yandex.practicum.filmorate.model.film.MpaRating;
-import ru.yandex.practicum.filmorate.model.user.User;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.film.GenreRepository;
 import ru.yandex.practicum.filmorate.storage.film.LikeRepository;
@@ -29,22 +27,15 @@ import java.util.Set;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class FilmService {
     private final UserService userService;
+    @Qualifier("filmDbStorage")
     private final FilmStorage filmStorage;
     private final MpaRepository mpaRepository;
     private final GenreRepository genreRepository;
     private final LikeRepository likeRepository;
 
-    @Autowired
-    public FilmService(UserService userService, @Qualifier("filmDbStorage") FilmStorage filmStorage,
-                       MpaRepository mpaRepository, GenreRepository genreRepository, LikeRepository likeRepository) {
-        this.userService = userService;
-        this.filmStorage = filmStorage;
-        this.mpaRepository = mpaRepository;
-        this.genreRepository = genreRepository;
-        this.likeRepository = likeRepository;
-    }
 
     public Film create(Film film) {
         validateAndChange(film);
@@ -54,6 +45,7 @@ public class FilmService {
     }
 
     public Film update(Film film) {
+
         filmStorage.findById(film.getId())
                 .orElseThrow(() -> new NotFoundException("Фильм с id=" + film.getId() + " не найден"));
 
@@ -70,12 +62,14 @@ public class FilmService {
 
     public Collection<Film> getFilms() {
         return filmStorage.getFilms();
+
     }
 
     public void addLike(Long filmId, Long userId) {
         Film film = filmStorage.findById(filmId)
                 .orElseThrow(() -> new NotFoundException("Фильм с id = " + filmId + " не найден"));
         UserDto user = userService.findById(userId);
+
 
         Set<Long> likes = likeRepository.findLikesByFilm(filmId);
         if (likes.contains(userId)) {
@@ -93,6 +87,7 @@ public class FilmService {
 
         likeRepository.deleteLike(filmId, userId);
         log.info("Пользователь {} удалил лайк фильму \"{}\"", user.getName(), film.getName());
+
     }
 
     public List<Film> getTopFilms(int count) {

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Data
 public class NewUserRequest {
-    Long id;
+    private Long id;
 
     @NotBlank(message = "Email не должен быть пустым")
     @Email(message = "Некорректный формат email")

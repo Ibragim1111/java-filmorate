@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.model.film;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class MpaRating {
     private int id;
     private String name;
+
 }

@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.mappers;
 
 
-
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ru.yandex.practicum.filmorate.dto.UserDto;
@@ -9,7 +8,6 @@ import ru.yandex.practicum.filmorate.model.user.NewUserRequest;
 import ru.yandex.practicum.filmorate.model.user.UpdateUserRequest;
 import ru.yandex.practicum.filmorate.model.user.User;
 
-import java.time.LocalDate;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserMapper {

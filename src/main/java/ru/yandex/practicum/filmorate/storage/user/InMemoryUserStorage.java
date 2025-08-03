@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.storage.user;
 
 
 import org.springframework.stereotype.Component;
+
 import ru.yandex.practicum.filmorate.model.user.User;
 
 import java.util.*;
@@ -19,13 +20,16 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User update(User user) {
+
         users.put(user.getId(), user);
         return user;
     }
 
     @Override
+
     public boolean delete(Long userId) {
         return false;
+
     }
 
     @Override
@@ -34,8 +38,10 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
+
     public Optional<User> findById(Long userId) {
         return Optional.ofNullable(users.get(userId));
+
     }
 
     @Override
@@ -67,4 +73,5 @@ public class InMemoryUserStorage implements UserStorage {
     public void confirmFriendship(Long userId, Long friendId) {
 
     }
+
 }

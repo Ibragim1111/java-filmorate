@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 @Data
 public class UpdateUserRequest {
-    Long id;
+    private Long id;
 
     @Email(message = "Некорректный формат email")
     private String email;
