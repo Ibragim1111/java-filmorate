@@ -4,20 +4,17 @@ package ru.yandex.practicum.filmorate.storage.film;
 import org.springframework.stereotype.Component;
 
 import ru.yandex.practicum.filmorate.model.film.Film;
+
 import java.util.*;
 
-
+@Deprecated
 @Component
 public class InMemoryFilmStorage implements FilmStorage {
-    private final Map<Integer, Film> films = new HashMap<>();
-    private final Map<Integer, Set<Integer>> likes = new HashMap<>();
-    private int idCounter = 1;
+    private final Map<Long, Film> films = new HashMap<>();
 
     @Override
     public Film create(Film film) {
-        film.setId(idCounter++);
         films.put(film.getId(), film);
-        likes.put(film.getId(), new HashSet<>());
         return film;
     }
 
@@ -28,30 +25,17 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Film getById(int id) {
-        return films.get(id);
+    public Optional<Film> findById(Long filmId) {
+        return Optional.ofNullable(films.get(filmId));
     }
 
     @Override
-    public Collection<Film> getAll() {
+    public List<Film> findTopFilms(int count) {
+        return List.of();
+    }
+
+    @Override
+    public Collection<Film> getFilms() {
         return films.values();
-    }
-
-    @Override
-    public void addLike(int filmId, int userId) {
-        likes.get(filmId).add(userId);
-    }
-
-    @Override
-    public void removeLike(int filmId, int userId) {
-        likes.get(filmId).remove(userId);
-    }
-
-    @Override
-    public Collection<Film> getPopular(int count) {
-        return films.values().stream()
-                .sorted(Comparator.comparingInt(f -> -likes.get(f.getId()).size()))
-                .limit(count)
-                .toList();
     }
 }

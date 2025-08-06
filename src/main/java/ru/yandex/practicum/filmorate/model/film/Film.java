@@ -2,36 +2,52 @@ package ru.yandex.practicum.filmorate.model.film;
 
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.PastOrPresent;
+
 import lombok.Data;
 import ru.yandex.practicum.filmorate.release.film.MinReleaseDate;
 import java.time.LocalDate;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
+import lombok.experimental.FieldDefaults;
+
+
+
+import java.util.HashSet;
 import java.util.Set;
 
-
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder(toBuilder = true)
+@AllArgsConstructor
 public class Film {
-    private int id;
+    Long id;
 
-    @NotBlank(message = "Название не может быть пустым")
-    private String name;
+    @NotBlank(message = "Название не должно быть пустым")
+    String name;
 
     @Size(max = 200, message = "Максимальная длина описания — 200 символов")
-    private String description;
+    String description;
 
     @MinReleaseDate
-    @NotNull(message = "Дата релиза обязательна")
-    @PastOrPresent(message = "Дата релиза не может быть в будущем")
-    private LocalDate releaseDate;
+    LocalDate releaseDate;
 
-    @Positive(message = "Продолжительность фильма должна быть положительной")
-    private int duration;
+    @Positive(message = "Продолжительность фильма должна быть положительным числом")
+    int duration;
 
-    private Set<Genre> genres;
-    private MpaRating mpa;
+    Set<Genre> genres;
 
+    @JsonProperty("mpa")
+    MpaRating mpaRating;
+
+    final Set<Long> movieRating = new HashSet<>();
 }
+
